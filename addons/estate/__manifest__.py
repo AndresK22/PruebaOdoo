@@ -9,10 +9,10 @@
     """,
     # data files always loaded at installation
     'data': [
-        'data/ir.estate.access.csv',
+        'security/ir.model.access.csv',
         'views/estate_views.xml',
-    ]
+        
     # data files containing optionally loaded demonstration data
-    #    'demo/demo_data.xml',
-    #],
+        #'demo/demo_data.xml',
+    ],
 }
