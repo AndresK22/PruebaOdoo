@@ -1,60 +1,5 @@
 <?xml version="1.0"?>
 <odoo>
-    <record id="test_estate_action" model="ir.actions.act_window">
-        <field name="name">Properties</field>
-        <field name="res_model">estate</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <menuitem id="test_menu_root" name="Real Estate">
-        <menuitem id="test_first_level_menu" name="Advertisements">
-            <menuitem id="test_estate_menu_action" action="test_estate_action"/>
-        </menuitem>
-    </menuitem>
-
-
-    <record id="estate_view_search" model="ir.ui.view">
-        <field name="name">estate.view.search</field>
-        <field name="model">estate</field>
-        <field name="arch" type="xml">
-            <search string="Buscar viviendas">
-                <filter string="Estado" name="state" domain="['|', ('state', '=', 'new'), ('state', '=', 'offer_received')]"/>
-                <group expand="1" string="Agrupar por">
-                    <filter string="Codigo postal" name="postcode" context="{'group_by':'postcode'}"/>
-                </group>
-                <field name="name"/>
-                <separator/>
-                <field name="postcode"/>
-                <separator/>
-                <field name="expected_price"/>
-                <separator/>
-                <field name="bedrooms"/>
-                <separator/>
-                <field name="living_area"/>
-                <separator/>
-                <field name="facades"/>
-            </search>
-        </field>
-    </record>
-
-
-    <record id="estate_view_tree" model="ir.ui.view">
-        <field name="name">estate.tree</field>
-        <field name="model">estate</field>
-        <field name="arch" type="xml">
-            <tree string="Tests">
-                <field name="name"/>
-                <field name="postcode"/>
-                <field name="bedrooms"/>
-                <field name="living_area"/>
-                <field name="expected_price"/>
-                <field name="selling_price"/>
-                <field name="date_availability"/>
-            </tree>
-        </field>
-    </record>
-
-
     <record id="estate_view_form" model="ir.ui.view">
         <field name="name">estate.form</field>
         <field name="model">estate</field>
@@ -64,15 +9,18 @@
                     <header>
                         <group>
                             <field name="name"/>
+                            <field name="property_tag_id" widget="many2many_tags"/>
                         </group>
                     </header>
                     <group>
                         <group>
+                            <field name="property_type_id"/>
                             <field name="postcode"/>
                             <field name="date_availability"/>
                         </group>
                         <group>
                             <field name="expected_price"/>
+                            <field name="best_price"/>
                             <field name="selling_price"/>
                         </group>
                         <notebook>
@@ -86,7 +34,28 @@
                                     <field name="garden"/>
                                     <field name="garden_area"/>
                                     <field name="garden_orientation"/>
+                                    <field name="total_area"/>
                                     <field name="state"/>
+                                </group>
+                            </page>
+
+                            <page string="Ofertas">
+                                <field name="offer_ids">
+                                    <tree string="Ofertas">
+                                        <field name="price"/>
+                                        <field name="status"/>
+                                        <field name="partner_id"/>
+                                        <field name="validity"/>
+                                        <field name="date_deadline" widget="date"/>
+                                        <field name="property_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Informacion adicional">
+                                <group>
+                                    <field name="partner_id"/>
+                                    <field name="users_id"/>
                                 </group>
                             </page>
                         </notebook>
@@ -95,5 +64,23 @@
             </form>
         </field>
     </record>
+
+
+    <record id="estate_type_view_form" model="ir.ui.view">
+        <field name="name">estate.type.form</field>
+        <field name="model">estate_type</field>
+        <field name="arch" type="xml">
+            <form string="Test">
+                <sheet>
+                    <header>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </header>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
 
 </odoo>

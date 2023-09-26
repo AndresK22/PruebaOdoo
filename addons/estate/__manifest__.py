@@ -10,6 +10,8 @@
     # data files always loaded at installation
     'data': [
         'security/ir.model.access.csv',
+        'views/estate_menus_views.xml',
+        'views/estate_trees_views.xml',
         'views/estate_views.xml',
         
     # data files containing optionally loaded demonstration data
