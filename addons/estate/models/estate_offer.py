@@ -1,14 +1,16 @@
 from odoo import api, models, fields
+from odoo.exceptions import ValidationError
 from datetime import datetime, timedelta
 
 class EstateOffer(models.Model):
     _name = "estate_offer"
     _description = "Modelo de ofertas de propiedades"
+    _order = "price desc"
 
     price = fields.Float(
-        string = 'Precio')
+        string = 'Oferta $')
     status = fields.Selection(
-        string = 'Tag de propiedad',
+        string = 'Estado de la oferta',
         selection=[('accepted','Aceptado'), ('refused','Rechazado')],
         copy=False)
     partner_id = fields.Many2one(
@@ -56,3 +58,27 @@ class EstateOffer(models.Model):
                 record.validity = (record.date_deadline - record.create_date).days
             else:
                 pass
+
+    #Acciones de botones
+    def aceptar_oferta(self):
+        for record in self:
+            if not record.property_id.partner_id:
+                record.status = "accepted"
+                record.property_id.selling_price = record.price
+                record.property_id.partner_id = record.partner_id
+            else:
+                raise ValidationError("No puede aceptar mas de una oferta")
+        return True
+
+    def rechazar_oferta(self):
+        for record in self:
+            record.status = "refused"
+            record.property_id.selling_price = None
+            record.property_id.partner_id = None
+        return True
+
+    
+    #Constraints de SQL
+    _sql_constraints = [
+        ('check_price', 'CHECK(price > 0)', 'El precio ofertado debe ser estrictamente positivo.')
+    ]

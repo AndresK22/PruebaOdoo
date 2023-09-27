@@ -1,6 +1,7 @@
 {
     'name': "estate",
     'version': '1.0',
+    'license': 'LGPL-3',
     'depends': ['base'],
     'author': "K22",
     'category': 'Ejemplo',
@@ -9,7 +10,7 @@
     """,
     # data files always loaded at installation
     'data': [
-        'security/ir.model.access.csv',
+        'data/ir.model.access.csv',
         'views/estate_menus_views.xml',
         'views/estate_trees_views.xml',
         'views/estate_views.xml',

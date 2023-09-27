@@ -36,6 +36,7 @@
                 <field name="expected_price"/>
                 <field name="selling_price"/>
                 <field name="date_availability"/>
+                <!--<button type="action" name="%(test_estate_tag_action)d" string="Accion en boton"/>-->
             </tree>
         </field>
     </record>
@@ -56,6 +57,7 @@
         <field name="model">estate_type</field>
         <field name="arch" type="xml">
             <tree string="Tipos de propiedad">
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
             </tree>
         </field>

@@ -9,12 +9,19 @@
                     <header>
                         <group>
                             <field name="name"/>
-                            <field name="property_tag_id" widget="many2many_tags"/>
+                            <field name="property_tag_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
                         </group>
+                    </header>                    
+
+                    <header>
+                        <button name="cambiar_a_vender" string="Vender" type="object"/>
+                        <button name="cambiar_a_cancelar" string="Cancelar" type="object"/>
+
+                        <field name="state" widget="statusbar"/>
                     </header>
                     <group>
                         <group>
-                            <field name="property_type_id"/>
+                            <field name="property_type_id" options="{'no_create': True}"/>
                             <field name="postcode"/>
                             <field name="date_availability"/>
                         </group>
@@ -43,19 +50,22 @@
                                 <field name="offer_ids">
                                     <tree string="Ofertas">
                                         <field name="price"/>
-                                        <field name="status"/>
                                         <field name="partner_id"/>
                                         <field name="validity"/>
                                         <field name="date_deadline" widget="date"/>
-                                        <field name="property_id"/>
+                                        
+                                        <button name="aceptar_oferta" title="Aceptar" type="object" icon="fa-check"/>
+                                        <button name="rechazar_oferta" title="Rechazar" type="object" icon="fa-times"/>
+
+                                        <field name="status"/>
                                     </tree>
                                 </field>
                             </page>
 
                             <page string="Informacion adicional">
                                 <group>
-                                    <field name="partner_id"/>
                                     <field name="users_id"/>
+                                    <field name="partner_id"/>
                                 </group>
                             </page>
                         </notebook>
@@ -77,6 +87,19 @@
                             <field name="name"/>
                         </group>
                     </header>
+
+                    <notebook>
+                        <page string="Propiedades">
+                            <field name="property_ids">
+                                <tree string="Propiedades">
+                                    <field name="name"/>
+                                    <field name="expected_price"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
                 </sheet>
             </form>
         </field>

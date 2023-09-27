@@ -1,17 +1,18 @@
 from odoo import api, models, fields
+from odoo.tools.float_utils import float_compare
+from odoo.exceptions import ValidationError
+
 from datetime import datetime, timedelta
 
 class Estate(models.Model):
     _name = "estate"
     _description = "Modelo de las propiedades"
+    _order = "id desc"
 
     name = fields.Char(
         string = 'Nombre',
         default = "Unknown",
         required=True)
-    last_seen = fields.Datetime(
-        string="Visto por ultima vez",
-        default=lambda self: fields.Datetime.now())
     description = fields.Text(
         string = 'Descripcion',
         required=True)
@@ -68,6 +69,7 @@ class Estate(models.Model):
     property_type_id = fields.Many2one(
         "estate_type",
         string="Tipo de propiedad")
+
     partner_id = fields.Many2one(
         "res.partner",
         string="Comprador",
@@ -120,3 +122,42 @@ class Estate(models.Model):
         else:
             self.garden_area = 0
             self.garden_orientation = ""
+
+    
+    #Acciones de botones
+    def cambiar_a_vender(self):
+        for record in self:
+            if (record.state == "canceled"):
+                raise ValidationError("No puede establecer una propiedad cancelada como vendida")
+            else:
+                record.state = "sold"
+        return True
+
+    def cambiar_a_cancelar(self):
+        for record in self:
+            if (record.state == "sold"):
+                raise ValidationError("No puede establecer una propiedad vendida como cancelada")
+            else:
+                record.state = "canceled"
+        return True
+
+
+    #Constraints de SQL
+    _sql_constraints = [
+        ('check_expected_price', 'CHECK(expected_price > 0)', 'El precio esperado debe ser estrictamente positivo.'),
+        ('check_selling_price', 'CHECK(selling_price >= 0)', 'El precio de venta debe ser positivo')
+    ]
+
+
+    #Constraints de Python
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price(self):
+        for record in self:
+            for offer in record.offer_ids:
+                if offer.status == 'refused':
+                    pass
+                else:
+                    resultado = float_compare(record.selling_price, record.expected_price * 0.9, precision_digits=2)
+                    if resultado == -1:
+                        raise ValidationError("El precio de venta no puede ser menor al 90 por ciento del precio esperado")
+        # all records passed the test, don't return anything
