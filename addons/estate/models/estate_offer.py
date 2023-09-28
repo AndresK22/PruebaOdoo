@@ -21,6 +21,11 @@ class EstateOffer(models.Model):
         "estate",
         string="Propiedad",
         required=True)
+
+    #Campo para encontrar el estado del inmueble
+    #property_state = fields.Selection(
+     #   related='property_id.state',
+      #  string='Estado de la Propiedad')
     
     #Campo calculado, incluyendo inverse
     validity = fields.Integer(
@@ -64,6 +69,7 @@ class EstateOffer(models.Model):
         for record in self:
             if not record.property_id.partner_id:
                 record.status = "accepted"
+                record.property_id.state = "offer_accepted"
                 record.property_id.selling_price = record.price
                 record.property_id.partner_id = record.partner_id
             else:

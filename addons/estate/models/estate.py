@@ -157,7 +157,9 @@ class Estate(models.Model):
                 if offer.status == 'refused':
                     pass
                 else:
-                    resultado = float_compare(record.selling_price, record.expected_price * 0.9, precision_digits=2)
-                    if resultado == -1:
-                        raise ValidationError("El precio de venta no puede ser menor al 90 por ciento del precio esperado")
+                    for off in record.offer_ids:
+                        resultado = float_compare(off.price, (record.expected_price * 0.9), precision_digits=2)
+                        if resultado == -1:
+                            #raise ValidationError("El precio de venta no puede ser menor al 90 por ciento del precio esperado")
+                            raise ValidationError(resultado)
         # all records passed the test, don't return anything
