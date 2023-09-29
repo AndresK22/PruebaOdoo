@@ -61,6 +61,7 @@
                                         <button name="rechazar_oferta" title="Rechazar" type="object" icon="fa-times"
                                             attrs="{'invisible': [('status', 'in', ['accepted', 'refused'])]}"/>
 
+                                        <field name="property_type_id"/>
                                         <field name="status" invisible='1'/>
                                     </tree>
                                 </field>
@@ -85,12 +86,15 @@
         <field name="model">estate_type</field>
         <field name="arch" type="xml">
             <form string="Test">
+                <header>
+                    <button name="%(test_estate_offer_action)d" type="action" string="Mostrar ofertas" class="oe_stat_button">
+                        <field name="offer_count" widget="statinfo" string="Ofertas"/>
+                    </button>
+                </header>
                 <sheet>
-                    <header>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </header>
+                    <group>
+                        <field name="name"/>
+                    </group>
 
                     <notebook>
                         <page string="Propiedades">

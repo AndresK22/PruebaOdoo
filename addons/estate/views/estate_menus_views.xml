@@ -19,6 +19,13 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record id="test_estate_offer_action" model="ir.actions.act_window">
+        <field name="name">Property offers</field>
+        <field name="res_model">estate_offer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('property_type_id', '=', active_id)]</field>
+    </record>
+
 
     <menuitem id="test_menu_root" name="Real Estate">
         <menuitem id="test_first_level_menu" name="Advertisements">

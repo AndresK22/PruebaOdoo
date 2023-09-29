@@ -22,6 +22,12 @@ class EstateOffer(models.Model):
         string="Propiedad",
         required=True)
 
+    #Campo relacionado a otro
+    property_type_id = fields.Many2one(
+        string="Tipo de propiedad",
+        related="property_id.property_type_id",
+        store=True)
+
     #Campo para encontrar el estado del inmueble
     #property_state = fields.Selection(
      #   related='property_id.state',
