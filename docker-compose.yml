@@ -22,8 +22,10 @@ services:
       - "10016:8069"
       - "20016:8072" # live chat
     tty: true
-    #command: --
-    command: -d base -u estate --dev xml
+    command: --
+    #command: -d base -u facturas --dev xml
+    #command: -d base -u facturas
+    #command: -d base -u base
     environment:
       - HOST=db
       - USER=odoo

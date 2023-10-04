@@ -1,4 +1,4 @@
-from odoo import api, models, fields
+from odoo import models, api, fields
 from odoo.tools.float_utils import float_compare
 from odoo.exceptions import ValidationError
 
@@ -151,15 +151,27 @@ class Estate(models.Model):
 
     #Constraints de Python
     @api.constrains('selling_price', 'expected_price')
-    def _check_selling_price(self):
+    def _check_selling_price2(self):
         for record in self:
             for offer in record.offer_ids:
                 if offer.status == 'refused':
                     pass
-                else:
+                elif offer.status == 'accepted':
                     for off in record.offer_ids:
                         resultado = float_compare(off.price, (record.expected_price * 0.9), precision_digits=2)
                         if resultado == -1:
-                            #raise ValidationError("El precio de venta no puede ser menor al 90 por ciento del precio esperado")
-                            raise ValidationError(resultado)
+                            raise ValidationError("El precio de venta no puede ser menor al 90 por ciento del precio esperado")
+                else:
+                    pass         
         # all records passed the test, don't return anything
+
+
+
+    #Metodos heredados y sobrecargados
+
+    #Evitar que se borre si el estado no es "Nuevo" o "Cancelado"
+    @api.ondelete(at_uninstall=False)
+    def _delete_estate(self):
+        for reg in self:
+            if reg.state in ('offer_received', 'offer_accepted', 'sold'):
+                raise ValidationError("No se puede eliminar un inmueble a menos que sea nuevo o cancelado")

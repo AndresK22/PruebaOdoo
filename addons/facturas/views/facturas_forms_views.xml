@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="ambiente_destino_view_form" model="ir.ui.view">
+        <field name="name">ambiente_destino.form</field>
+        <field name="model">facturas.ambiente_destino</field>
+        <field name="arch" type="xml">
+            <form string="Test">
+                <sheet>
+                    <group>
+                        <field name="codigo"/>
+                        <field name="valor"/>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

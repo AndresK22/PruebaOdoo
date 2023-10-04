@@ -1,1 +1,1 @@
-from . import estate_tag, estate, estate_type, estate_offer
+from . import estate_tag, estate, estate_type, estate_offer, res_users

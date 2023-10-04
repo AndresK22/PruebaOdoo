@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+    <!--Acciones de los menus-->
+    <record id="ambiente_destino_action" model="ir.actions.act_window">
+        <field name="name">Ambiente de destino</field>
+        <field name="res_model">facturas.ambiente_destino</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_state': 'True'}</field>
+    </record>
+
+    <!--Menus-->
+    <menuitem id="facturas_menu_root" name="Ambiente de destino">
+        <menuitem id="first_level_menu" name="Catalogos">
+            <menuitem id="ambiente_destino_menu_action" action="ambiente_destino_action"/>
+        </menuitem>
+    </menuitem>
+
+</odoo>

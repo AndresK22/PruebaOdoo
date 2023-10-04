@@ -74,8 +74,8 @@ class EstateOffer(models.Model):
     def aceptar_oferta(self):
         for record in self:
             if not record.property_id.partner_id:
-                record.status = "accepted"
-                record.property_id.state = "offer_accepted"
+                record.status = 'accepted'
+                record.property_id.state = 'offer_accepted'
                 record.property_id.selling_price = record.price
                 record.property_id.partner_id = record.partner_id
             else:
@@ -84,7 +84,7 @@ class EstateOffer(models.Model):
 
     def rechazar_oferta(self):
         for record in self:
-            record.status = "refused"
+            record.status = 'refused'
             record.property_id.selling_price = None
             record.property_id.partner_id = None
         return True
@@ -94,3 +94,22 @@ class EstateOffer(models.Model):
     _sql_constraints = [
         ('check_price', 'CHECK(price > 0)', 'El precio ofertado debe ser estrictamente positivo.')
     ]
+
+
+    #Metodos heredados y sobrecargados
+
+    #Al crear una oferta, el estado del inmueble debe pasar a ser "Oferta recibida"
+    @api.model
+    def create(self, vals):
+        estate = self.env['estate'].browse(vals['property_id'])
+
+        # Verificar si ya existen ofertas
+        if estate.offer_ids:
+            # Recorrer las ofertas
+            for offer in estate.offer_ids:
+                # Comparar precios 
+                if vals['price'] < offer.price:
+                    raise ValidationError("La nueva oferta no puede ser menor a ofertas existentes")
+        # Continuar creación normal
+        estate.write({'state': 'offer_received'})
+        return super().create(vals)

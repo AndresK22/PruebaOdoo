@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!--Buscador de Ambiente de destino-->
+    <record id="ambiente_destino_view_search" model="ir.ui.view">
+        <field name="name">ambiente_destino.view.search</field>
+        <field name="model">facturas.ambiente_destino</field>
+        <field name="arch" type="xml">
+            <search string="Buscar ambientes">
+                <filter string="Activo" name="state" domain="[('state','=','True')]" help="Muestra solo los ambientes activos"/>
+                <separator/>
+                <field name="codigo"/>
+                <separator/>
+                <field name="valor"/>
+            </search>
+        </field>
+    </record>
+
+    <!--Tabla de Ambiente de destino-->
+    <record id="ambiente_destino_view_tree" model="ir.ui.view">
+        <field name="name">facturas.ambiente_destino.tree</field>
+        <field name="model">facturas.ambiente_destino</field>
+        <field name="arch" type="xml">
+            <tree string="Ambiente de destino">
+                <field name="codigo"/>
+                <field name="valor"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+
+</odoo>
